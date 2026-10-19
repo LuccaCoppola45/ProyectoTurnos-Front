@@ -1,0 +1,45 @@
+<article class="business-card">
+  <div class="business-cover" [class]="'business-cover ' + business().color">
+    <div class="cover-decoration cover-decoration-one"></div>
+    <div class="cover-decoration cover-decoration-two"></div>
+    <span class="business-initials">{{ business().initials }}</span>
+    <span class="open-badge"><span></span> Con turnos</span>
+    <button
+      class="favorite-button"
+      type="button"
+      [class.favorite-button-active]="isFavorite()"
+      [attr.aria-label]="isFavorite() ? 'Quitar ' + business().name + ' de favoritos' : 'Guardar ' + business().name + ' en favoritos'"
+      [attr.aria-pressed]="isFavorite()"
+      (click)="toggleFavorite()"
+    >
+      {{ isFavorite() ? '♥' : '♡' }}
+    </button>
+  </div>
+  <div class="business-content">
+    <div class="business-title-row">
+      <div>
+        <p class="business-category">{{ business().category }}</p>
+        <h3>{{ business().name }}</h3>
+      </div>
+      <span class="rating"><span aria-hidden="true">★</span> {{ business().rating }}</span>
+    </div>
+    <p class="business-description">{{ business().description }}</p>
+    <p class="business-location"><span aria-hidden="true">⌖</span> {{ business().location }}</p>
+    <div class="service-tags">
+      @for (service of business().services; track service) {
+        <span>{{ service }}</span>
+      }
+    </div>
+    <div class="business-card-footer">
+      <span class="starting-price">{{ business().price }}</span>
+      <button
+        class="choose-button"
+        [class.choose-button-selected]="isSelected()"
+        [attr.aria-pressed]="isSelected()"
+        (click)="selectBusiness()"
+      >
+        {{ isSelected() ? 'Elegido ✓' : 'Elegir lugar →' }}
+      </button>
+    </div>
+  </div>
+</article>

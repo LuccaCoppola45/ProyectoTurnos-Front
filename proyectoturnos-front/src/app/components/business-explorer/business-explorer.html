@@ -1,0 +1,67 @@
+<section class="search-section" aria-label="Buscar comercios y servicios">
+  <div class="search-intro">
+    <span class="eyebrow">UN PLAN CERCA TUYO</span>
+    <h2>¿Qué tenés ganas de hacer?</h2>
+  </div>
+  <label class="search-box">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="1.8" />
+      <path d="m16 16 4.2 4.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+    </svg>
+    <input
+      type="search"
+      placeholder="Probá “masajes” o “peluquería”"
+      aria-label="Buscar por lugar, servicio o zona"
+      (input)="updateSearch($event)"
+    />
+  </label>
+</section>
+
+<section class="explore-section" id="explorar">
+  <div class="section-heading">
+    <div>
+      <span class="eyebrow">LUGARES PARA VOS</span>
+      <h2>Un lugar que te va.</h2>
+    </div>
+    <a class="text-link" href="#explorar">Ver todos <span aria-hidden="true">→</span></a>
+  </div>
+
+  <div class="category-list" aria-label="Filtrar por categoría">
+    @for (category of categories; track category) {
+      <button
+        class="category-chip"
+        [class.category-chip-active]="activeCategory() === category"
+        [attr.aria-pressed]="activeCategory() === category"
+        (click)="selectCategory(category)"
+      >
+        @switch (category) {
+          @case ('Belleza') { <span aria-hidden="true">✿</span> }
+          @case ('Bienestar') { <span aria-hidden="true">☼</span> }
+          @case ('Salud') { <span aria-hidden="true">✚</span> }
+          @case ('Fitness') { <span aria-hidden="true">↗</span> }
+        }
+        {{ category }}
+      </button>
+    }
+  </div>
+
+  <div class="business-grid">
+    @for (business of filteredBusinesses(); track business.id) {
+      <app-business-card
+        [business]="business"
+        [isFavorite]="favoriteBusinesses().includes(business.id)"
+        [isSelected]="selectedBusiness() === business.id"
+        (favoriteToggle)="toggleFavorite($event)"
+        (businessSelect)="selectBusiness($event)"
+      />
+    } @empty {
+      <div class="empty-state">
+        <span aria-hidden="true">⌕</span>
+        <h3>No encontramos ese lugar</h3>
+        <p>Probá con otro servicio o elegí una categoría diferente.</p>
+        <button class="text-link" (click)="clearFilters()">Limpiar búsqueda</button>
+      </div>
+    }
+  </div>
+  <p class="demo-note">Lugares y precios ilustrativos. El catálogo se conectará con los comercios del sistema.</p>
+</section>

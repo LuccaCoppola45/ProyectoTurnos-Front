@@ -2,6 +2,22 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.7.
 
+## Estructura de la aplicación
+
+La interfaz está organizada por páginas, componentes reutilizables y servicios:
+
+```text
+src/app/
+├── components/       # Componentes independientes, cada uno con su HTML, TS y CSS
+├── models/           # Modelos TypeScript del dominio
+├── pages/            # Páginas compuestas a partir de componentes
+├── services/         # Acceso y lógica para los datos
+├── app.routes.ts     # Rutas de la aplicación
+└── app.config.ts     # Configuración global de Angular
+```
+
+El catálogo que usa `BusinessService` contiene datos de demostración; todavía no consulta la API del backend.
+
 ## Development server
 
 To start a local development server, run:

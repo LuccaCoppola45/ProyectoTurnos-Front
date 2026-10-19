@@ -1,0 +1,28 @@
+.how-section { padding: 67px max(50px, calc((100% - 1040px) / 2)) 70px; display: grid; grid-template-columns: .8fr 1.4fr; align-items: center; gap: 70px; background: #f0f2ec; }
+.eyebrow { display: inline-flex; align-items: center; color: #748178; font-size: 8px; font-weight: 700; letter-spacing: 1.65px; }
+.how-copy h2 { margin: 12px 0; font: 600 33px/1.2 'Manrope', sans-serif; letter-spacing: -2.5px; }
+.how-copy h2 span { color: #789780; }
+.how-copy > p { color: #7f8a80; font-size: 11px; line-height: 1.7; }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.step-card { min-height: 174px; padding: 14px 13px; position: relative; border: 1px solid #e5e9e1; border-radius: 10px; background: #fbfaf7; }
+.step-number { position: absolute; top: 13px; right: 13px; color: #a2aba2; font: 600 9px 'Manrope', sans-serif; }
+.step-icon { width: 31px; height: 31px; display: grid; place-items: center; border-radius: 9px; font-size: 19px; }
+.step-icon-search { background: #e8eee4; color: #68836c; }
+.step-icon-calendar { background: #f6eade; color: #c18761; }
+.step-icon-heart { background: #eee8ef; color: #9a7d9c; }
+.step-card h3 { margin: 15px 0 6px; font: 700 11px 'Manrope', sans-serif; }
+.step-card p { margin: 0; color: #838c84; font-size: 9px; line-height: 1.65; }
+
+@media (max-width: 900px) {
+  .how-section { padding-right: 40px; padding-left: 40px; gap: 35px; }
+}
+
+@media (max-width: 620px) {
+  .how-section { grid-template-columns: 1fr; gap: 24px; padding: 46px 23px; }
+  .how-copy h2 { font-size: 30px; }
+  .steps { gap: 8px; }
+  .step-card { min-height: 164px; padding: 11px 9px; }
+  .step-card h3 { font-size: 9px; }
+  .step-card p { font-size: 8px; }
+  .step-number { top: 10px; right: 9px; font-size: 8px; }
+}

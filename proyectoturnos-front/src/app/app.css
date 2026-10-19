@@ -1,4 +1,4 @@
-:host{
-    display: grid;
-    grid-template-columns: auto 1fr auto;
+:host {
+  display: block;
+  min-height: 100vh;
 }

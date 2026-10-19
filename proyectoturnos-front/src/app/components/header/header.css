@@ -1,0 +1,66 @@
+.site-header {
+  height: 82px;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font: 800 23px 'Manrope', sans-serif;
+  letter-spacing: -1.3px;
+}
+
+.brand-mark {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  color: var(--green);
+}
+
+.brand-mark svg { width: 100%; height: 100%; }
+.brand-period { color: #e28b68; }
+
+.main-nav {
+  display: flex;
+  gap: 38px;
+  margin-left: 67px;
+  color: #6e7871;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.main-nav a { transition: color .18s ease; }
+.main-nav a:hover { color: var(--green); }
+
+.header-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  padding: 11px 16px;
+  border: 1px solid #dce5dc;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  transition: background .2s ease, color .2s ease;
+}
+
+.header-cta:hover { background: var(--green); color: #fff; }
+.header-cta span { font-size: 16px; }
+
+@media (max-width: 900px) {
+  .site-header { padding: 0 28px; }
+}
+
+@media (max-width: 620px) {
+  .site-header { height: 68px; padding: 0 20px; }
+  .brand { font-size: 21px; }
+  .main-nav { gap: 16px; margin-left: 0; font-size: 10px; }
+  .main-nav a:last-child { display: none; }
+  .header-cta { gap: 6px; padding: 9px 11px; font-size: 9px; }
+}
