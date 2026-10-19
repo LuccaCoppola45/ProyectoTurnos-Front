@@ -14,8 +14,9 @@
     <a href="#como-funciona">Cómo funciona</a>
   </nav>
 
-  <a class="header-cta" href="#explorar">
-    Encontrá tu turno
-    <span aria-hidden="true">↗</span>
-  </a>
+  @if (authService.isAuthenticated()) {
+    <button class="header-cta" type="button" (click)="authService.logout()">Cerrar sesión</button>
+  } @else {
+    <a class="header-cta" href="#acceso">Iniciar sesión <span aria-hidden="true">↗</span></a>
+  }
 </header>

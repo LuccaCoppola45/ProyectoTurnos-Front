@@ -27,7 +27,7 @@
   </div>
 
   <div class="category-list" aria-label="Filtrar por categoría">
-    @for (category of categories; track category) {
+    @for (category of categories(); track category) {
       <button
         class="category-chip"
         [class.category-chip-active]="activeCategory() === category"
@@ -44,7 +44,14 @@
       </button>
     }
   </div>
-
+  @if (loading()) {
+    <p class="catalog-message" role="status">Cargando comercios del backend…</p>
+  } @else if (errorMessage()) {
+    <div class="catalog-error" role="alert">
+      <p>{{ errorMessage() }}</p>
+      <button class="text-link" type="button" (click)="loadBusinesses()">Reintentar</button>
+    </div>
+  } @else {
   <div class="business-grid">
     @for (business of filteredBusinesses(); track business.id) {
       <app-business-card
@@ -58,10 +65,16 @@
       <div class="empty-state">
         <span aria-hidden="true">⌕</span>
         <h3>No encontramos ese lugar</h3>
-        <p>Probá con otro servicio o elegí una categoría diferente.</p>
+        <p>Probá con otro servicio o revisá si hay comercios disponibles en el backend.</p>
         <button class="text-link" (click)="clearFilters()">Limpiar búsqueda</button>
       </div>
     }
   </div>
-  <p class="demo-note">Lugares y precios ilustrativos. El catálogo se conectará con los comercios del sistema.</p>
+  @if (selectedBusinessDetails(); as business) {
+    <app-appointment-form [business]="business" (close)="closeBooking()" />
+  }
+  @if (businesses().length === 0) {
+    <p class="catalog-message">Todavía no hay comercios cargados en el backend.</p>
+  }
+  }
 </section>

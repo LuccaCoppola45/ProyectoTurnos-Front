@@ -1,62 +1,50 @@
-import { Injectable } from '@angular/core';
-import type { Business } from '../models/business.model';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { map, Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+import type { BusinessCardModel, BusinessResponse } from '../models/business.model';
+
+const CARD_COLORS: BusinessCardModel['color'][] = ['peach', 'sage', 'blue', 'lavender'];
 
 @Injectable({
   providedIn: 'root',
 })
 export class BusinessService {
-  private readonly featuredBusinesses: readonly Business[] = [
-    {
-      id: 1,
-      name: 'Casa Oliva',
-      category: 'Belleza',
-      description: 'Un espacio para renovar tu estilo.',
-      rating: '4.9',
-      location: 'Palermo, Buenos Aires',
-      price: 'Desde $8.500',
-      color: 'peach',
-      initials: 'CO',
-      services: ['Corte de pelo', 'Coloración'],
-    },
-    {
-      id: 2,
-      name: 'Alma Estudio',
-      category: 'Bienestar',
-      description: 'Bajá un cambio, estás en buenas manos.',
-      rating: '4.8',
-      location: 'Villa Crespo, Buenos Aires',
-      price: 'Desde $12.000',
-      color: 'sage',
-      initials: 'AE',
-      services: ['Masajes', 'Yoga'],
-    },
-    {
-      id: 3,
-      name: 'Norte Dental',
-      category: 'Salud',
-      description: 'Cuidamos tu sonrisa con calidez.',
-      rating: '5.0',
-      location: 'Belgrano, Buenos Aires',
-      price: 'Desde $15.000',
-      color: 'blue',
-      initials: 'ND',
-      services: ['Limpieza dental', 'Consulta'],
-    },
-    {
-      id: 4,
-      name: 'Punto Movimiento',
-      category: 'Fitness',
-      description: 'Encontrá tu ritmo y disfrutá el proceso.',
-      rating: '4.9',
-      location: 'Colegiales, Buenos Aires',
-      price: 'Desde $6.000',
-      color: 'lavender',
-      initials: 'PM',
-      services: ['Entrenamiento', 'Pilates'],
-    },
-  ];
+  private readonly http = inject(HttpClient);
 
-  getFeaturedBusinesses(): readonly Business[] {
-    return this.featuredBusinesses;
+  getBusinesses(): Observable<BusinessCardModel[]> {
+    return this.http.get<BusinessResponse[] | null>(`${environment.apiUrl}/api/comercios`).pipe(
+      map((businesses) => (businesses ?? []).map((business, index) => this.toCardModel(business, index))),
+    );
+  }
+
+  private toCardModel(business: BusinessResponse, index: number): BusinessCardModel {
+    const categories = business.categorias ?? [];
+    const services = business.servicios ?? [];
+    const lowestPrice = services.reduce<number | null>(
+      (currentLowest, service) =>
+        currentLowest === null ? service.precio : Math.min(currentLowest, service.precio),
+      null,
+    );
+
+    return {
+      id: business.idComercio,
+      name: business.nombre,
+      categories,
+      description: business.descripcion,
+      location: business.direccion,
+      priceLabel:
+        lowestPrice === null
+          ? 'Consultar precio'
+          : `Desde ${new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(lowestPrice)}`,
+      color: CARD_COLORS[index % CARD_COLORS.length],
+      initials: business.nombre
+        .split(/\s+/)
+        .slice(0, 2)
+        .map((word) => word.charAt(0))
+        .join('')
+        .toLocaleUpperCase(),
+      services,
+    };
   }
 }

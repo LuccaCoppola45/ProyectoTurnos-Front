@@ -18,20 +18,19 @@
   <div class="business-content">
     <div class="business-title-row">
       <div>
-        <p class="business-category">{{ business().category }}</p>
+        <p class="business-category">{{ business().categories.join(' · ') || 'General' }}</p>
         <h3>{{ business().name }}</h3>
       </div>
-      <span class="rating"><span aria-hidden="true">★</span> {{ business().rating }}</span>
     </div>
     <p class="business-description">{{ business().description }}</p>
     <p class="business-location"><span aria-hidden="true">⌖</span> {{ business().location }}</p>
     <div class="service-tags">
-      @for (service of business().services; track service) {
-        <span>{{ service }}</span>
+      @for (service of business().services; track service.idServicio) {
+        <span>{{ service.nombreServicio }}</span>
       }
     </div>
     <div class="business-card-footer">
-      <span class="starting-price">{{ business().price }}</span>
+      <span class="starting-price">{{ business().priceLabel }}</span>
       <button
         class="choose-button"
         [class.choose-button-selected]="isSelected()"

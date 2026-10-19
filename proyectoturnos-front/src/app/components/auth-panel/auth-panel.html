@@ -1,0 +1,68 @@
+<section class="auth-section">
+  <div class="auth-card">
+    <span class="eyebrow">TU PRÓXIMO TURNO EMPIEZA ACÁ</span>
+    <h1>{{ isRegistering() ? 'Creá tu cuenta.' : 'Qué bueno verte.' }}</h1>
+    <p class="auth-intro">
+      {{
+        isRegistering()
+          ? 'Registrate para explorar comercios y reservar tus servicios.'
+          : 'Iniciá sesión para ver comercios y reservar un servicio.'
+      }}
+    </p>
+
+    <form (ngSubmit)="submit()">
+      @if (isRegistering()) {
+        <div class="name-fields">
+          <label>
+            Nombre
+            <input [(ngModel)]="nombre" name="nombre" autocomplete="given-name" minlength="3" required />
+          </label>
+          <label>
+            Apellido
+            <input [(ngModel)]="apellido" name="apellido" autocomplete="family-name" minlength="3" required />
+          </label>
+        </div>
+      }
+      <label>
+        Email
+        <input
+          [(ngModel)]="email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          placeholder="tu@email.com"
+          required
+        />
+      </label>
+      <label>
+        Contraseña
+        <input
+          [(ngModel)]="password"
+          name="password"
+          type="password"
+          [attr.autocomplete]="isRegistering() ? 'new-password' : 'current-password'"
+          minlength="6"
+          required
+        />
+      </label>
+      @if (errorMessage()) {
+        <p class="auth-error" role="alert">{{ errorMessage() }}</p>
+      }
+      <button class="auth-submit" type="submit" [disabled]="loading()">
+        {{
+          loading()
+            ? 'Conectando…'
+            : isRegistering()
+              ? 'Crear cuenta'
+              : 'Iniciar sesión'
+        }}
+      </button>
+    </form>
+    <p class="auth-switch">
+      {{ isRegistering() ? '¿Ya tenés cuenta?' : '¿Todavía no tenés cuenta?' }}
+      <button type="button" (click)="toggleMode()">
+        {{ isRegistering() ? 'Iniciá sesión' : 'Registrate' }}
+      </button>
+    </p>
+  </div>
+</section>

@@ -1,0 +1,69 @@
+<section class="booking-panel" aria-labelledby="booking-title">
+  <div class="panel-heading">
+    <div>
+      <span class="eyebrow">RESERVA TU MOMENTO</span>
+      <h2 id="booking-title">Un turno en {{ business().name }}</h2>
+    </div>
+    <button class="close-button" type="button" aria-label="Cerrar reserva" (click)="close.emit()">×</button>
+  </div>
+
+  @if (appointment(); as createdAppointment) {
+    <div class="booking-success" role="status">
+      <span class="success-icon" aria-hidden="true">✓</span>
+      <div>
+        <h3>¡Turno solicitado!</h3>
+        <p>Turno #{{ createdAppointment.idTurno }} · {{ createdAppointment.fecha }} a las {{ createdAppointment.horaInicio }}</p>
+        <small>Estado: {{ createdAppointment.estado }}</small>
+      </div>
+    </div>
+  } @else if (business().services.length === 0) {
+    <p class="booking-error" role="alert">Este comercio todavía no tiene servicios disponibles para reservar.</p>
+  } @else {
+    <form class="booking-form" (ngSubmit)="submitBooking()">
+      <label>
+        Servicio
+        <select
+          name="serviceId"
+          [ngModel]="serviceId()"
+          (ngModelChange)="serviceId.set($event)"
+          required
+        >
+          @for (service of business().services; track service.idServicio) {
+            <option [value]="service.idServicio">
+              {{ service.nombreServicio }} · {{ service.duracionDelServicio }} min ·
+              {{ service.precio | currency: 'ARS' }}
+            </option>
+          }
+        </select>
+      </label>
+      <label>
+        Fecha
+        <input
+          type="date"
+          name="date"
+          [min]="minDate"
+          [ngModel]="date()"
+          (ngModelChange)="date.set($event)"
+          required
+        />
+      </label>
+      <label>
+        Hora de inicio
+        <input
+          type="time"
+          name="time"
+          [ngModel]="time()"
+          (ngModelChange)="time.set($event)"
+          required
+        />
+      </label>
+      <p class="booking-hint">El backend confirmará si el horario está disponible y dentro del horario de atención.</p>
+      @if (errorMessage()) {
+        <p class="booking-error" role="alert">{{ errorMessage() }}</p>
+      }
+      <button class="submit-button" type="submit" [disabled]="!canBook() || loading()">
+        {{ loading() ? 'Enviando…' : 'Reservar este horario' }}
+      </button>
+    </form>
+  }
+</section>

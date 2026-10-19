@@ -1,7 +1,11 @@
 <app-header />
 <main>
   <app-hero />
-  <app-business-explorer />
+  @if (authService.isAuthenticated()) {
+    <app-business-explorer />
+  } @else {
+    <app-auth-panel />
+  }
   <app-how-it-works />
   <app-closing-banner />
 </main>

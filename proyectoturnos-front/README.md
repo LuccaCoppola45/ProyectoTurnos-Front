@@ -11,22 +11,32 @@ src/app/
 ├── components/       # Componentes independientes, cada uno con su HTML, TS y CSS
 ├── models/           # Modelos TypeScript del dominio
 ├── pages/            # Páginas compuestas a partir de componentes
+├── interceptors/     # Interceptores HTTP para el token Bearer
 ├── services/         # Acceso y lógica para los datos
+├── utils/            # Utilidades compartidas
 ├── app.routes.ts     # Rutas de la aplicación
 └── app.config.ts     # Configuración global de Angular
 ```
 
-El catálogo que usa `BusinessService` contiene datos de demostración; todavía no consulta la API del backend.
+## Conexión con el backend
+
+La URL del backend se configura en `src/environments/environment.ts` (por defecto `http://localhost:8080`).
+El frontend inicia sesión o registra usuarios en `/api/auth`, carga comercios desde `/api/comercios` y
+crea turnos en `/turnos`. El token JWT se conserva en el navegador y se envía como `Authorization: Bearer`.
+Se necesita tener el backend y su base de datos en ejecución; comercios y servicios deben estar cargados
+para que aparezcan en el catálogo. La disponibilidad y validación del horario las confirma el backend al reservar.
 
 ## Development server
 
 To start a local development server, run:
 
 ```bash
-ng serve
+cd proyectoturnos-front
+npm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Once the frontend and backend are running, open `http://localhost:4200/`, sign in or create an account,
+then browse businesses and request an appointment.
 
 ## Code scaffolding
 

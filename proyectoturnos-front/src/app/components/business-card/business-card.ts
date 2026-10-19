@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import type { Business } from '../../models/business.model';
+import type { BusinessCardModel } from '../../models/business.model';
 
 @Component({
   selector: 'app-business-card',
@@ -8,7 +8,7 @@ import type { Business } from '../../models/business.model';
   templateUrl: './business-card.html',
 })
 export class BusinessCard {
-  readonly business = input.required<Business>();
+  readonly business = input.required<BusinessCardModel>();
   readonly isFavorite = input(false);
   readonly isSelected = input(false);
   readonly favoriteToggle = output<number>();
